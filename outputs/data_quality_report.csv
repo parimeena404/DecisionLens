@@ -1,0 +1,9 @@
+issue,count,treatment
+Missing values in 'order_date',70,Drop rows with missing 'order_date'
+Missing values in 'product_category',80,Impute from product_id lookup or fill with default
+Missing values in 'quantity',70,Impute from product_id lookup or fill with default
+Missing values in 'discount',80,Impute from product_id lookup or fill with default
+Duplicate rows,100,"Remove exact duplicates, keep first occurrence"
+Invalid discount values (negative or >100%),30,"Clamp to valid range [0.0, 1.0]"
+Suspicious quantities (>100 units per line),20,Remove orders with quantity > 100
+"Inconsistent category labels: ['household', 'PersonalCare', 'BEVERAGES', 'Beverage', 'personal care', 'beverages', 'Dairy Products', 'DAIRY', 'HOUSEHOLD', 'SNACKS', 'Snack', 'snacks', 'dairy', 'PERSONAL CARE', 'Home Care']",50,Normalize to canonical category names

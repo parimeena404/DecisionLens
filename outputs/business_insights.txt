@@ -1,0 +1,19 @@
+DECISIONLENS — PART 1 BUSINESS INSIGHTS
+==================================================
+NOTE: All findings are from synthetic data.
+Associations below are NOT causal claims.
+==================================================
+
+1. REVENUE CONCENTRATION: The 'High Value' segment contributes 50.55% of total revenue while representing 21.06% of customers.
+
+2. HIGH-VALUE IMPACT: 1,053 high-value customers (21.06% of base) generate 50.55% of total observed revenue.
+
+3. RETENTION OPPORTUNITY: 579 customers are 'At Risk' (avg recency 248 days). They represent 7.79% of historical revenue.
+
+4. ORDER VALUE VARIATION: 'High Value' shows the highest avg order value (₹238.26), 'Low Engagement' the lowest (₹144.62).
+
+5. DISCOUNT ASSOCIATION: 'Loyal' customers show the highest avg discount usage (96.0%); 'Low Engagement' the lowest (92.0%). NOTE: This is an observed association, not a causal claim.
+
+6. COHORT RETENTION: Average 6-month retention is 26.2%. Best cohort at 6 months: 2023-01 (36.7%).
+
+7. CATEGORY ENGAGEMENT: 'High Value' customers engage with the most categories on average (4.7), suggesting broader basket composition.

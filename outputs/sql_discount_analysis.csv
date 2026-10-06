@@ -1,0 +1,5 @@
+discount_band,order_count,total_revenue,avg_revenue
+Low (1-10%%),31016,6734585.3,217.13
+Medium (11-20%%),4043,900579.6,222.75
+High (>20%%),3618,718731.1,198.65
+No Discount,2221,534025.0,240.44

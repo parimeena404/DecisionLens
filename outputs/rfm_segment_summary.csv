@@ -1,0 +1,7 @@
+segment,customer_count,avg_recency,avg_frequency,avg_monetary,total_revenue,avg_aov,avg_discount_usage,avg_categories,revenue_share_pct,customer_share_pct
+At Risk,579,248.0,5.79,1196.06,692516.6,210.5,0.94,3.61,7.79,11.58
+Growing,653,26.7,5.44,962.12,628262.75,174.76,0.95,3.44,7.07,13.06
+High Value,1053,22.39,16.82,4266.82,4492966.2,238.26,0.95,4.71,50.55,21.06
+Low Engagement,997,240.89,2.2,319.53,318567.35,144.62,0.92,1.92,3.58,19.94
+Loyal,940,150.59,11.06,2280.35,2143529.05,202.07,0.96,4.46,24.12,18.8
+Occasional,778,159.71,4.75,786.73,612079.05,163.05,0.95,3.14,6.89,15.56
