@@ -3,66 +3,48 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { 
-  LayoutDashboard, 
-  Users, 
-  TrendingDown, 
-  SearchCheck, 
+import {
+  LayoutDashboard,
+  Users,
+  TrendingDown,
+  SearchCheck,
+  Activity,
   Database,
-  Layers
 } from 'lucide-react';
 
 const navItems = [
-  {
-    name: 'Overview',
-    href: '/',
-    icon: LayoutDashboard,
-    description: 'Executive KPIs & Segment Health',
-  },
-  {
-    name: 'Customer Intelligence',
-    href: '/customers',
-    icon: Users,
-    description: 'RFM Behaviors & Directory',
-  },
-  {
-    name: 'Retention & Churn',
-    href: '/retention',
-    icon: TrendingDown,
-    description: 'Cohort Decay & Risk Scoring',
-  },
-  {
-    name: 'Insight Investigation',
-    href: '/insights',
-    icon: SearchCheck,
-    description: 'Evidence Table & Causality',
-  },
+  { name: 'Overview', href: '/', icon: LayoutDashboard },
+  { name: 'Customer intelligence', href: '/customers', icon: Users },
+  { name: 'Retention & churn', href: '/retention', icon: TrendingDown },
+  { name: 'Insight investigation', href: '/insights', icon: SearchCheck },
 ];
 
 export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="w-64 bg-slate-900 text-slate-100 flex flex-col min-h-screen border-r border-slate-800 shrink-0">
-      {/* Brand Header */}
-      <div className="p-6 border-b border-slate-800">
-        <div className="flex items-center space-x-3">
-          <div className="w-9 h-9 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold shadow-md shadow-blue-500/20">
-            <Layers className="w-5 h-5" />
+    <aside className="hidden lg:flex w-60 flex-col bg-surface-0 border-r border-ink-100 min-h-screen shrink-0 select-none">
+      {/* Brand */}
+      <div className="px-5 pt-6 pb-5">
+        <div className="flex items-center gap-2.5">
+          <div className="w-7 h-7 rounded bg-accent-600 flex items-center justify-center">
+            <Activity className="w-3.5 h-3.5 text-white" strokeWidth={2.5} />
           </div>
           <div>
-            <h1 className="font-bold text-lg leading-tight text-white tracking-tight">
+            <div className="text-sm font-semibold text-ink-900 tracking-tight leading-none">
               DecisionLens
-            </h1>
-            <p className="text-xs text-slate-400 font-medium">Customer Intelligence</p>
+            </div>
+            <div className="text-2xs text-ink-400 mt-0.5">
+              Customer decision intelligence
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Navigation Links */}
-      <div className="flex-1 py-6 px-3 space-y-1.5">
-        <div className="px-3 pb-2 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-          Core Analytics
+      {/* Navigation */}
+      <nav className="flex-1 px-3 space-y-0.5">
+        <div className="px-2 pb-1.5 text-2xs font-medium text-ink-300 uppercase tracking-widest">
+          Analysis
         </div>
         {navItems.map((item) => {
           const Icon = item.icon;
@@ -71,39 +53,45 @@ export default function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-start gap-3 px-3.5 py-3 rounded-lg text-sm font-medium transition-all duration-150 ${
-                isActive
-                  ? 'bg-blue-600 text-white shadow-sm shadow-blue-600/30 font-semibold'
-                  : 'text-slate-300 hover:text-white hover:bg-slate-800/70'
-              }`}
+              className={`
+                flex items-center gap-2.5 px-2.5 py-2 rounded text-[13px] font-medium
+                transition-colors duration-100
+                ${isActive
+                  ? 'bg-accent-50 text-accent-700'
+                  : 'text-ink-500 hover:text-ink-800 hover:bg-surface-1'
+                }
+              `}
             >
-              <Icon className={`w-5 h-5 shrink-0 mt-0.5 ${isActive ? 'text-white' : 'text-slate-400'}`} />
-              <div className="leading-snug">
-                <div>{item.name}</div>
-                <div className={`text-[11px] font-normal ${isActive ? 'text-blue-100' : 'text-slate-500'}`}>
-                  {item.description}
-                </div>
-              </div>
+              <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-accent-600' : 'text-ink-300'}`} strokeWidth={1.75} />
+              {item.name}
             </Link>
           );
         })}
-      </div>
+      </nav>
 
-      {/* Metadata Card in Footer */}
-      <div className="p-4 m-3 rounded-xl bg-slate-800/80 border border-slate-700/60 text-xs text-slate-300">
-        <div className="flex items-center gap-1.5 text-blue-400 font-medium mb-1.5">
-          <Database className="w-3.5 h-3.5" />
-          <span>Pipeline Status</span>
+      {/* Status Footer */}
+      <div className="px-5 py-4 border-t border-ink-50">
+        <div className="space-y-2 text-2xs text-ink-400">
+          <div className="flex items-center justify-between">
+            <span className="flex items-center gap-1.5">
+              <Database className="w-3 h-3 text-ink-300" />
+              Pipeline
+            </span>
+            <span className="text-ink-600 font-medium">Complete</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span>Observation cutoff</span>
+            <span className="font-mono text-ink-600">2024-09-30</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span>Target window</span>
+            <span className="font-mono text-ink-600">Q4 2024</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span>Data leakage</span>
+            <span className="text-risk-low font-medium">None verified</span>
+          </div>
         </div>
-        <p className="text-slate-400 text-[11px] leading-relaxed">
-          Cutoff Date: <span className="text-slate-200 font-mono">2024-09-30</span><br />
-          Target Window: <span className="text-slate-200 font-mono">Q4 2024</span><br />
-          Data Leakage: <span className="text-emerald-400 font-medium">Zero (Verified)</span>
-        </p>
-      </div>
-
-      <div className="p-4 border-t border-slate-800 text-[11px] text-slate-500 text-center">
-        Vercel-Ready · DecisionLens v2.0
       </div>
     </aside>
   );
