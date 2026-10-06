@@ -8,10 +8,12 @@ export default function RetentionPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Retention & Churn Analytics</h1>
-        <p className="text-sm text-slate-500 mt-1">
-          Longitudinal cohort retention tracking, balanced logistic regression churn prediction, and feature attribution.
+      <div className="border-b border-white/5 pb-2">
+        <h1 className="text-2xl sm:text-3xl font-extrabold font-display tracking-tight">
+          Retention & Churn Dynamics
+        </h1>
+        <p className="text-xs sm:text-sm text-ink-600 mt-1">
+          Longitudinal cohort retention tracking, balanced logistic regression churn prediction, and empirical feature attribution.
         </p>
       </div>
 

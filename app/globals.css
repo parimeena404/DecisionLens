@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;550;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@400;450;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -10,63 +10,106 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  body {
-    @apply bg-slate-50 text-slate-900 font-sans;
-    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  html {
+    scroll-behavior: smooth;
   }
 
-  /* Custom subtle scrollbar */
-  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  body {
+    @apply bg-canvas text-ink-50 font-body;
+    font-feature-settings: 'tnum' on, 'lnum' on;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .dark body, body.dark {
+    @apply bg-canvas-dark text-ink-900;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
   ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-  ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(124,92,255,0.25);
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(124,92,255,0.45);
+  }
 
   /* Focus ring */
   :focus-visible {
-    @apply outline-2 outline-offset-2 outline-blue-600;
+    @apply outline-2 outline-offset-2 outline-accent-400;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
 
 @layer components {
-  /* Ultra visual cards with subtle elevation */
-  .ultra-card {
-    @apply bg-white border border-slate-200/80 rounded-lg shadow-xs transition-all duration-200;
+  /* Glass card — dark mode */
+  .glass {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
   }
-  .ultra-card:hover {
-    @apply border-slate-300 shadow-sm;
-  }
-
-  /* Glassmorphism accent */
-  .glass-card {
-    @apply bg-white/80 backdrop-blur-md border border-white/40 shadow-xs;
-  }
-
-  /* Dark executive panel */
-  .dark-executive-panel {
-    @apply bg-slate-900 text-slate-100 border border-slate-800 rounded-lg shadow-sm;
+  .glass:hover {
+    border-color: rgba(255,255,255,0.14);
+    background: rgba(255,255,255,0.06);
   }
 
-  /* Subtle pulsing glow for verified status */
-  .badge-pulse {
-    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
-    animation: badgePulse 2.5s infinite;
+  /* Glass card — light mode */
+  .light .glass, :root:not(.dark) .glass {
+    background: rgba(255,255,255,0.85);
+    border: 1px solid rgba(0,0,0,0.06);
+    backdrop-filter: blur(16px);
+  }
+  .light .glass:hover, :root:not(.dark) .glass:hover {
+    border-color: rgba(0,0,0,0.12);
+    background: rgba(255,255,255,0.92);
+  }
+
+  /* Tabular numerals for data */
+  .tabular {
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+
+  /* Segment colors as badge bg */
+  .seg-badge {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium;
+  }
+
+  /* Scroll progress bar */
+  .scroll-progress {
+    @apply fixed top-0 left-0 h-[2px] bg-accent-400 z-[60];
+    transform-origin: left;
+  }
+
+  /* Badge pulse */
+  .badge-verified {
+    box-shadow: 0 0 0 0 rgba(34,195,166,0.5);
+    animation: verifiedPulse 3s ease-in-out infinite;
   }
 }
 
-@keyframes badgePulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
-  }
-  70% {
-    box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
-  }
+@keyframes verifiedPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(34,195,166,0.4); }
+  50% { box-shadow: 0 0 0 5px rgba(34,195,166,0); }
 }
 
-@keyframes shimmer {
-  100% {
-    transform: translateX(100%);
-  }
+/* Page transition wrapper */
+.page-enter {
+  opacity: 0;
+  filter: blur(4px);
+  transform: translateY(8px);
+}
+.page-enter-active {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
