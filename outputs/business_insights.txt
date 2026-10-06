@@ -1,4 +1,4 @@
-DECISIONLENS — PART 1 BUSINESS INSIGHTS
+DECISIONLENS -- PART 1 BUSINESS INSIGHTS
 ==================================================
 NOTE: All findings are from synthetic data.
 Associations below are NOT causal claims.
@@ -10,7 +10,7 @@ Associations below are NOT causal claims.
 
 3. RETENTION OPPORTUNITY: 579 customers are 'At Risk' (avg recency 248 days). They represent 7.79% of historical revenue.
 
-4. ORDER VALUE VARIATION: 'High Value' shows the highest avg order value (₹238.26), 'Low Engagement' the lowest (₹144.62).
+4. ORDER VALUE VARIATION: 'High Value' shows the highest avg order value (Rs.238.26), 'Low Engagement' the lowest (Rs.144.62).
 
 5. DISCOUNT ASSOCIATION: 'Loyal' customers show the highest avg discount usage (96.0%); 'Low Engagement' the lowest (92.0%). NOTE: This is an observed association, not a causal claim.
 

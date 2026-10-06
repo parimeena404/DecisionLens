@@ -1,0 +1,11 @@
+feature,coefficient,abs_coefficient,direction
+recency,0.5453,0.5453,higher -> more likely inactive
+tenure_days,0.5356,0.5356,higher -> more likely inactive
+monetary_value,-0.4869,0.4869,higher -> less likely inactive
+frequency,-0.4301,0.4301,higher -> less likely inactive
+total_orders,-0.4301,0.4301,higher -> less likely inactive
+category_count,0.2785,0.2785,higher -> more likely inactive
+product_count,0.2092,0.2092,higher -> more likely inactive
+discount_usage,-0.1008,0.1008,higher -> less likely inactive
+average_order_value,-0.0426,0.0426,higher -> less likely inactive
+avg_days_between_orders,0.0121,0.0121,higher -> more likely inactive

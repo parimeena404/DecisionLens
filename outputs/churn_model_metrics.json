@@ -1,0 +1,20 @@
+{
+  "roc_auc": 0.705,
+  "precision": 0.5846,
+  "recall": 0.7005,
+  "f1": 0.6373,
+  "confusion_matrix": [
+    [
+      354,
+      211
+    ],
+    [
+      127,
+      297
+    ]
+  ],
+  "test_size": 989,
+  "train_size": 3955,
+  "churn_rate_train": 0.4286,
+  "churn_rate_test": 0.4287
+}

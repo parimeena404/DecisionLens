@@ -1,0 +1,76 @@
+DECISIONLENS -- EVIDENCE-BASED INSIGHT REPORT
+============================================================
+NOTE: All findings are from SYNTHETIC data.
+No causal claims are made.
+============================================================
+
+INSIGHT 1
+----------------------------------------
+Question       : How concentrated is revenue among top customers, and does this create business risk?
+Finding        : The 'High Value' segment (21.06% of customers) accounts for 50.55% of observed revenue.
+Metric         : Revenue share: 50.55%, Customer share: 21.06%
+Strength       : Strong
+Limitation     : Synthetic data; real revenue distributions may differ. Revenue share is retrospective and may not predict future concentration.
+Causal Status  : Association (not causal)
+Next Step      : Track high-value segment stability over time. Investigate whether segment membership is persistent or transient.
+
+INSIGHT 2
+----------------------------------------
+Question       : Which customer behaviours are most strongly associated with future inactivity?
+Finding        : 'recency' has the strongest association with future inactivity (|coef|=0.545). Direction: higher -> more likely inactive.
+Metric         : Logistic Regression coefficient: +0.5453, Model ROC-AUC: 0.705
+Strength       : Moderate
+Limitation     : Model trained on synthetic data. Coefficients reflect associations, not interventions. Model uses class weighting which affects coefficient magnitudes.
+Causal Status  : Association (not causal)
+Next Step      : Run controlled experiments (e.g., A/B test re-engagement campaigns targeting high-recency customers) to test whether reducing recency actually prevents churn.
+
+INSIGHT 3
+----------------------------------------
+Question       : Do RFM 'At Risk' customers also show high predicted churn probability?
+Finding        : 579 customers are RFM 'At Risk'. Separately, 942 customers (19.1%) are predicted as 'High' churn risk by the model.
+Metric         : At Risk count: 579, High churn risk count: 942, Model ROC-AUC: 0.705
+Strength       : Moderate
+Limitation     : RFM segments and churn predictions use different methodologies; overlap is expected but not guaranteed. Both are computed from the same underlying data.
+Causal Status  : Association (not causal)
+Next Step      : Cross-tabulate RFM segments with predicted risk tiers to identify customers flagged by both methods for priority intervention.
+
+INSIGHT 4
+----------------------------------------
+Question       : Is discount usage associated with higher or lower likelihood of future inactivity?
+Finding        : Discount usage has a coefficient of -0.1008 in the churn model. higher -> less likely inactive.
+Metric         : Coefficient: -0.1008, Rank by importance: 8/10
+Strength       : Preliminary
+Limitation     : Discount-churn association is confounded: customers who use discounts may differ systematically from those who do not. Discounts may be offered to already-at-risk customers. Cannot infer that discounts cause or prevent churn.
+Causal Status  : Association (not causal)
+Next Step      : Design a randomised experiment: randomly assign discount offers to a subset of similar customers and measure retention differences.
+
+INSIGHT 5
+----------------------------------------
+Question       : How quickly does customer retention decay, and which acquisition cohorts retain best?
+Finding        : Average 6-month retention is 26.2%. Best cohort: 2023-01 (36.7%), Worst: 2023-10 (12.8%).
+Metric         : 6-month avg retention: 26.2%, Range: 12.8% - 36.7%
+Strength       : Strong
+Limitation     : Retention is measured by any purchase, not by revenue or engagement depth. Cohort sizes vary significantly, making small cohorts less reliable.
+Causal Status  : Association (not causal)
+Next Step      : Investigate what differed about the best-performing cohort's acquisition channel or onboarding experience.
+
+INSIGHT 6
+----------------------------------------
+Question       : Is purchasing across more product categories associated with lower churn risk?
+Finding        : Category count has a coefficient of +0.2785 in the churn model. higher -> more likely inactive.
+Metric         : Coefficient: +0.2785, Mean categories (High Value segment): 4.7
+Strength       : Moderate
+Limitation     : Category diversity may be a proxy for overall engagement rather than an independent driver. Customers who buy more also buy more categories.
+Causal Status  : Association (not causal)
+Next Step      : Test whether cross-category recommendations increase retention via controlled experiment.
+
+INSIGHT 7
+----------------------------------------
+Question       : How confident is the churn model in its predictions, and how many customers fall in the uncertain zone?
+Finding        : 76 customers have churn probability >= 80% (high confidence inactive). 285 have <= 20% (high confidence active). 4,583 are in the uncertain middle zone.
+Metric         : High confidence inactive: 76, High confidence active: 285, Uncertain: 4583
+Strength       : Moderate
+Limitation     : Probability calibration has not been separately validated. The model uses balanced class weights which can shift probability distributions.
+Causal Status  : Prediction (not causal)
+Next Step      : Apply probability calibration (e.g., Platt scaling) and validate on held-out temporal data.
+

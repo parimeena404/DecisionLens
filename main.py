@@ -1,8 +1,9 @@
 """
-DecisionLens – Part 1 Pipeline Orchestrator
-=============================================
-Runs the complete data-and-analytics foundation:
+DecisionLens -- Pipeline Orchestrator
+=======================================
+Runs the complete analytics and prediction pipeline:
 
+  Part 1: Data & Analytics Foundation
     1. Generate synthetic FMCG transaction data
     2. Assess data quality and clean
     3. Store in SQLite and run SQL aggregations
@@ -10,6 +11,10 @@ Runs the complete data-and-analytics foundation:
     5. Perform RFM segmentation
     6. Conduct monthly cohort retention analysis
     7. Produce deterministic business insights
+
+  Part 2: Churn Prediction & Evidence Layer
+    8. Temporal churn prediction (Logistic Regression)
+    9. Evidence-based insight engine
 
 IMPORTANT: The dataset is synthetic and is used to demonstrate
 the analytical workflow.  Results are not real market estimates.
@@ -34,6 +39,8 @@ from src.sql_analysis import run_sql_analysis
 from src.customer_analysis import run_customer_analysis
 from src.rfm import run_rfm_analysis
 from src.cohorts import run_cohort_analysis
+from src.churn_prediction import run_churn_prediction
+from src.evidence_engine import run_evidence_engine
 
 OUTPUT_DIR = Path(__file__).resolve().parent / "outputs"
 
@@ -80,8 +87,8 @@ def generate_business_insights(rfm, rfm_summary, cohort_data,
     lo_aov = rfm_summary.loc[rfm_summary["avg_aov"].idxmin()]
     insights.append(
         f"4. ORDER VALUE VARIATION: '{hi_aov['segment']}' shows the "
-        f"highest avg order value (₹{hi_aov['avg_aov']:.2f}), "
-        f"'{lo_aov['segment']}' the lowest (₹{lo_aov['avg_aov']:.2f})."
+        f"highest avg order value (Rs.{hi_aov['avg_aov']:.2f}), "
+        f"'{lo_aov['segment']}' the lowest (Rs.{lo_aov['avg_aov']:.2f})."
     )
 
     # 5 – Discount association (NOT causal)
@@ -123,7 +130,7 @@ def generate_business_insights(rfm, rfm_summary, cohort_data,
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     with open(OUTPUT_DIR / "business_insights.txt", "w", encoding="utf-8") as fh:
-        fh.write("DECISIONLENS — PART 1 BUSINESS INSIGHTS\n")
+        fh.write("DECISIONLENS -- PART 1 BUSINESS INSIGHTS\n")
         fh.write("=" * 50 + "\n")
         fh.write("NOTE: All findings are from synthetic data.\n")
         fh.write("Associations below are NOT causal claims.\n")
@@ -134,14 +141,17 @@ def generate_business_insights(rfm, rfm_summary, cohort_data,
 
 
 def main():
-    """Run the complete Part 1 pipeline."""
+    """Run the complete Part 1 + Part 2 pipeline."""
     banner = (
         "\n" + "=" * 60 + "\n"
         "  DECISIONLENS - Customer Decision Intelligence Platform\n"
         "  Part 1: Data & Analytics Foundation\n"
+        "  Part 2: Churn Prediction & Evidence Layer\n"
         + "=" * 60 + "\n"
     )
     print(banner)
+
+    # ── PART 1 ───────────────────────────────────────────────
 
     # 1. Generate data
     df_raw = generate_dataset()
@@ -166,22 +176,41 @@ def main():
         rfm, rfm_summary, cohort_data, cust_features, sql_results,
     )
 
-    # Final summary
+    # ── PART 2 ───────────────────────────────────────────────
+
+    # 8. Temporal churn prediction
+    churn_results, churn_features, churn_target = run_churn_prediction(df_clean)
+
+    # 9. Evidence engine
+    evidence = run_evidence_engine(
+        rfm_summary, cohort_data, churn_results, cust_features,
+    )
+
+    # ── Final summary ────────────────────────────────────────
     raw_count = len(pd.read_csv(
         Path(__file__).resolve().parent / "data" / "raw_transactions.csv"
     ))
+    m = churn_results["metrics"]
+    scored = churn_results["scored_customers"]
+
     print("\n" + "=" * 60)
-    print("  PIPELINE COMPLETE")
+    print("  FULL PIPELINE COMPLETE")
     print("=" * 60)
     print(f"  Raw transactions     : {raw_count:,}")
     print(f"  Cleaned transactions : {len(df_clean):,}")
     print(f"  Customers analysed   : {len(cust_features):,}")
     print(f"  RFM segments         : {rfm['segment'].nunique()}")
     print(f"  Cohorts tracked      : {len(cohort_sizes)}")
-    print(f"  Insights generated   : {len(insights)}")
+    print(f"  Part 1 insights      : {len(insights)}")
+    print(f"  Churn model ROC-AUC  : {m['roc_auc']}")
+    print(f"  Churn risk tiers     : Low={int((scored['risk_tier']=='Low').sum())}, "
+          f"Med={int((scored['risk_tier']=='Medium').sum())}, "
+          f"High={int((scored['risk_tier']=='High').sum())}")
+    print(f"  Evidence insights    : {len(evidence)}")
     print(f"\n  Outputs -> outputs/")
     print(f"  Database -> data/decisionlens.db\n")
 
 
 if __name__ == "__main__":
     main()
+
